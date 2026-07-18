@@ -225,7 +225,142 @@ function toggleBackToTop() {
   imgs.forEach(img => io.observe(img));
 })();
 
-/* ---------- Button ripple effect ---------- */
+/* ---------- Order Modal ---------- */
+(function initOrderModal() {
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWS6IUvvf1_wqub84JZPUoPk5qaX5DAcJONBOqzyG3Bg8J0rMnS6HvVMTJTVh0_R5e/exec';
+
+  const overlay       = document.getElementById('orderModal');
+  const closeBtn      = document.getElementById('orderModalClose');
+  const form          = document.getElementById('orderForm');
+  const submitBtn     = document.getElementById('formSubmit');
+  const errorEl       = document.getElementById('formError');
+  const confirmEl     = document.getElementById('orderConfirm');
+  const confirmSummary= document.getElementById('confirmSummary');
+  const confirmBack   = document.getElementById('confirmBack');
+  const confirmSubmit = document.getElementById('confirmSubmit');
+  const confirmError  = document.getElementById('confirmError');
+  const successEl     = document.getElementById('orderSuccess');
+  const successClose  = document.getElementById('orderSuccessClose');
+  const successPhone  = document.getElementById('successPhone');
+  const totalEl       = document.getElementById('orderTotalAmount');
+  if (!overlay) return;
+
+  let orderData = {};
+
+  function calcTotal() {
+    let total = 0;
+    document.querySelectorAll('.qty-select').forEach(sel => {
+      total += parseInt(sel.value) * parseInt(sel.dataset.price);
+    });
+    totalEl.textContent = '₹' + total;
+  }
+  document.querySelectorAll('.qty-select').forEach(sel => {
+    sel.addEventListener('change', calcTotal);
+  });
+
+  function showStep(step) {
+    form.style.display = step === 'form' ? '' : 'none';
+    confirmEl.classList.toggle('show', step === 'confirm');
+    successEl.classList.toggle('show', step === 'success');
+  }
+
+  function openModal() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    form.reset();
+    errorEl.textContent = '';
+    calcTotal();
+    showStep('form');
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.order-btn').forEach(btn => {
+    btn.addEventListener('click', openModal);
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  if (successClose) successClose.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Step 1: validate & show confirmation
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    errorEl.textContent = '';
+
+    const name    = document.getElementById('of-name').value.trim();
+    const phone   = document.getElementById('of-phone').value.trim();
+    const address = document.getElementById('of-address').value.trim();
+    const city    = document.getElementById('of-city').value.trim();
+    const state   = document.getElementById('of-state').value.trim();
+    const pincode = document.getElementById('of-pincode').value.trim();
+    const chicken = document.getElementById('of-chicken').value;
+    const pumpkin = document.getElementById('of-pumpkin').value;
+    const banana  = document.getElementById('of-banana').value;
+    const notes   = document.getElementById('of-notes').value.trim();
+    const total   = totalEl.textContent;
+
+    if (!name || !phone || !address || !city || !state || !pincode) {
+      errorEl.textContent = 'Please fill in all required fields.';
+      return;
+    }
+    if (chicken === '0' && pumpkin === '0' && banana === '0') {
+      errorEl.textContent = 'Please select at least one product.';
+      return;
+    }
+
+    orderData = { name, phone, address, city, state, pincode, chicken, pumpkin, banana, notes, total };
+
+    let items = [];
+    if (chicken !== '0') items.push(`Chicken Jerky × ${chicken}`);
+    if (pumpkin !== '0') items.push(`Pumpkin & Oats × ${pumpkin}`);
+    if (banana  !== '0') items.push(`Banana & Oats × ${banana}`);
+
+    confirmSummary.innerHTML =
+      `<div>👤 <strong>${name}</strong></div>` +
+      `<div>📞 ${phone}</div>` +
+      `<div>📦 ${address}, ${city}, ${state} – ${pincode}</div>` +
+      `<div>🛒 ${items.join(', ')}</div>` +
+      `<div>💰 <strong>${total}</strong></div>` +
+      (notes ? `<div>📝 ${notes}</div>` : '');
+
+    showStep('confirm');
+  });
+
+  // Back to form
+  confirmBack.addEventListener('click', () => showStep('form'));
+
+  // Step 2: submit
+  confirmSubmit.addEventListener('click', async function() {
+    confirmError.textContent = '';
+    confirmSubmit.disabled = true;
+    confirmSubmit.textContent = 'Placing...';
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(orderData)
+      });
+
+      successPhone.textContent = orderData.phone;
+      showStep('success');
+
+    } catch (err) {
+      confirmError.textContent = 'Something went wrong. Please try again or contact us on Instagram.';
+    } finally {
+      confirmSubmit.disabled = false;
+      confirmSubmit.textContent = 'Yes, Place Order';
+    }
+  });
+})();
+
+
 (function initRipple() {
   document.querySelectorAll('.btn').forEach(btn => {
     btn.addEventListener('click', function(e) {

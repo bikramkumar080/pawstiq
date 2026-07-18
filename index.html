@@ -189,7 +189,6 @@
                 <span class="price-label">Launch Price</span>
                 <span class="price-value">₹299 <span class="price-mrp">₹349</span></span>
               </span>
-              <a href="https://www.instagram.com/pawstiq" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Order on Instagram</a>
             </div>
           </div>
         </div>
@@ -212,7 +211,6 @@
                 <span class="price-label">Launch Price</span>
                 <span class="price-value">₹249 <span class="price-mrp">₹299</span></span>
               </span>
-              <a href="https://www.instagram.com/pawstiq" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Order on Instagram</a>
             </div>
           </div>
         </div>
@@ -235,7 +233,6 @@
                 <span class="price-label">Launch Price</span>
                 <span class="price-value">₹249 <span class="price-mrp">₹299</span></span>
               </span>
-              <a href="https://www.instagram.com/pawstiq" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Order on Instagram</a>
             </div>
           </div>
         </div>
@@ -243,8 +240,8 @@
       </div>
 
       <div class="section-cta reveal">
-        <p>Ready to treat your furry friend?</p>
-        <a href="https://www.instagram.com/pawstiq" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Order Now on Instagram</a>
+        <p>Mix and match — order any combination of treats!</p>
+        <button class="btn btn-primary btn-lg order-btn">Place Your Order</button>
       </div>
     </div>
   </section>
@@ -600,6 +597,123 @@
       </div>
     </div>
   </footer>
+
+  <!-- ===== ORDER MODAL ===== -->
+  <div class="order-modal-overlay" id="orderModal" role="dialog" aria-modal="true" aria-label="Place your order">
+    <div class="order-modal">
+      <button class="order-modal-close" id="orderModalClose" aria-label="Close">&times;</button>
+      <span class="section-tag">Place Your Order</span>
+      <h2 class="order-modal-title">We'll confirm your order shortly</h2>
+      <p class="order-modal-subtitle">Fill in your details — we'll reach out to confirm and share payment info.</p>
+
+      <form class="order-form" id="orderForm" novalidate>
+
+        <div class="form-group">
+          <label for="of-name">Your Name *</label>
+          <input type="text" id="of-name" name="name" placeholder="e.g. Your Name" required />
+        </div>
+        <div class="form-group">
+          <label for="of-phone">Phone Number *</label>
+          <input type="tel" id="of-phone" name="phone" placeholder="e.g. 9876543210" required />
+        </div>
+        <div class="form-group">
+          <label for="of-address">House / Flat No. & Street *</label>
+          <textarea id="of-address" name="address" rows="2" placeholder="e.g. 12, 3rd Cross, MG Road" required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="of-city">City *</label>
+            <input type="text" id="of-city" name="city" placeholder="e.g. Bengaluru" required />
+          </div>
+          <div class="form-group">
+            <label for="of-state">State *</label>
+            <input type="text" id="of-state" name="state" placeholder="e.g. Karnataka" required />
+          </div>
+          <div class="form-group">
+            <label for="of-pincode">Pincode *</label>
+            <input type="text" id="of-pincode" name="pincode" placeholder="e.g. 560001" required maxlength="6" />
+          </div>
+        </div>
+
+        <p class="form-section-label">Select Quantities</p>
+        <div class="form-qty-grid">
+          <div class="form-qty-item">
+            <span class="form-qty-name">Chicken Jerky</span>
+            <span class="form-qty-price">₹299 · 70g</span>
+            <select id="of-chicken" name="chicken" class="qty-select" data-price="299">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div class="form-qty-item">
+            <span class="form-qty-name">Pumpkin & Oats</span>
+            <span class="form-qty-price">₹249 · 200g</span>
+            <select id="of-pumpkin" name="pumpkin" class="qty-select" data-price="249">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div class="form-qty-item">
+            <span class="form-qty-name">Banana & Oats</span>
+            <span class="form-qty-price">₹249 · 200g</span>
+            <select id="of-banana" name="banana" class="qty-select" data-price="249">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="order-total" id="orderTotal">
+          <span>Total</span>
+          <span id="orderTotalAmount">₹0</span>
+        </div>
+
+        <div class="form-group">
+          <label for="of-notes">Special Instructions <span class="form-optional">(optional)</span></label>
+          <textarea id="of-notes" name="notes" rows="2" placeholder="Any allergies, delivery preferences, etc."></textarea>
+        </div>
+
+        <div class="form-error" id="formError"></div>
+
+        <button type="submit" class="btn btn-primary btn-lg form-submit" id="formSubmit">
+          Review Order →
+        </button>
+      </form>
+
+      <!-- Confirmation step -->
+      <div class="order-confirm" id="orderConfirm">
+        <span class="section-tag">Confirm Your Order</span>
+        <h3 class="order-modal-title">Looks good?</h3>
+        <div class="confirm-summary" id="confirmSummary"></div>
+        <div class="confirm-actions">
+          <button class="btn btn-outline" id="confirmBack">← Edit</button>
+          <button class="btn btn-primary" id="confirmSubmit">Yes, Place Order</button>
+        </div>
+        <div class="form-error" id="confirmError"></div>
+      </div>
+
+      <!-- Success state -->
+      <div class="order-success" id="orderSuccess">
+        <div class="order-success-icon">🐾</div>
+        <h3>Order Received!</h3>
+        <p>Thank you! We'll contact you shortly on <strong id="successPhone"></strong> to confirm your order and share payment details.</p>
+        <button class="btn btn-outline" id="orderSuccessClose">Close</button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ===== BACK TO TOP ===== -->
   <button class="back-to-top" id="backToTop" aria-label="Back to top">&#8593;</button>
