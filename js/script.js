@@ -278,8 +278,8 @@ function toggleBackToTop() {
     document.body.style.overflow = '';
   }
 
-  document.querySelectorAll('.order-btn').forEach(btn => {
-    btn.addEventListener('click', openModal);
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.order-btn')) openModal();
   });
 
   closeBtn.addEventListener('click', closeModal);
