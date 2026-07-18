@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <!-- Paw icon -->
+  <circle cx="18" cy="28" r="7" fill="#6B7A4B"/>
+  <circle cx="11" cy="19" r="4" fill="#6B7A4B"/>
+  <circle cx="25" cy="19" r="4" fill="#6B7A4B"/>
+  <circle cx="6"  cy="26" r="3.2" fill="#6B7A4B"/>
+  <circle cx="30" cy="26" r="3.2" fill="#6B7A4B"/>
+  <!-- Wordmark -->
+  <text x="42" y="34" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#333333">Pawstiq</text>
+</svg>
