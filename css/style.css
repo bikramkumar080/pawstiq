@@ -347,8 +347,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .promise { background: var(--white); }
 .promise-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+}
+@media (min-width: 900px) {
+  .promise-grid { grid-template-columns: repeat(4, 1fr); }
 }
 .promise-card {
   background: var(--beige);
@@ -380,8 +383,14 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .products { background: var(--beige); }
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 28px;
+}
+@media (min-width: 640px) {
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  .products-grid { grid-template-columns: repeat(3, 1fr); }
 }
 .product-card {
   background: var(--white);
@@ -511,9 +520,12 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .ingredients .section-subtitle { color: rgba(255,255,255,.75); }
 .ingredients-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-bottom: 40px;
+}
+@media (min-width: 960px) {
+  .ingredients-grid { grid-template-columns: repeat(7, 1fr); }
 }
 .ingredient {
   background: rgba(255,255,255,.10);
