@@ -1,115 +1,60 @@
 # Pawstiq
+
 Premium handcrafted organic dog treats. Made in Bengaluru.
 
----
+## About
+
+Pawstiq is a static landing page for the Pawstiq dog treats brand, built with plain HTML, CSS, and JavaScript. Hosted on GitHub Pages — no backend, no framework.
+
+## Tech Stack
+
+- HTML5
+- CSS3 (custom properties, mobile-first)
+- Vanilla JavaScript
+- GitHub Pages deployment
+
+## Project Structure
+
+```
+/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── script.js
+├── images/
+│   ├── hero.png
+│   ├── chicken.png
+│   ├── pumpkin.png
+│   └── banana.png
+├── assets/
+│   ├── logo.png
+│   ├── favicon.png
+│   ├── qr.png
+│   └── ...decorative assets
+├── robots.txt
+├── sitemap.xml
+├── PRODUCTS.md
+└── README.md
+```
+
+## Deployment
+
+Hosted on GitHub Pages. To deploy:
+1. Push to the `main` branch
+2. Go to Settings → Pages → Source: `main` / root
+3. Site will be live at `https://<username>.github.io/pawstiq`
+
+## Custom Domain
+
+When ready, point `pawstiqpets.com` to GitHub Pages by adding a `CNAME` file and configuring DNS.
+
+## Contact
+
+- Instagram: [@pawstiq](https://www.instagram.com/pawstiq)
+- Email: pawstiq@gmail.com
+- Location: Bengaluru, Karnataka, India
 
 ## Product Details
 
-### Chicken Jerky
-
-> Nature's goodness in every bite.
-> Pawstiq treats are handcrafted and inspired by pure love for pets.
-
-Lovingly crafted with 100% real chicken — no fillers, no junk, just pure goodness.
-
-**Ingredients**
-- 100% Lean Chicken Breast
-- Turmeric
-- Coconut Oil
-
-**Feeding Guide**
-Serve as a snack or reward treat. Not a meal substitute.
-
-**Storage**
-- Store in cool, dry place
-- Keep sealed after opening
-- Consume within 30 days of opening
-
-**Highlight:** High protein in every bite
-
-**Not for Human Consumption**
-
-**Manufactured by:**
-Pawstiq Pets
-Bengaluru, Karnataka
-pawstiq@gmail.com
-
-**MRP (inc. all taxes):** ₹349
-**Net Wt.:** 70g
-**Shelf life:** Use within 6 months from the date of manufacture
-
----
-
-### Banana & Oats
-
-> Nature's goodness in every bite.
-> Pawstiq treats are handcrafted and inspired by pure love for pets.
-
-Lovingly crafted with wholesome ingredients — no fillers, no junk, just pure goodness.
-
-**Ingredients**
-- Banana
-- Oats
-- Wheat Flour
-- Peanut Butter
-- Coconut Oil
-
-**Feeding Guide**
-Serve as a snack or reward treat. Not a meal substitute.
-
-**Storage**
-- Store in cool, dry place
-- Keep sealed after opening
-- Consume within 30 days of opening
-
-**Highlight:** Rich in Fiber
-
-**Not for Human Consumption**
-
-**Manufactured by:**
-Pawstiq Pets
-Bengaluru, Karnataka
-pawstiq@gmail.com
-
-**MRP (inc. all taxes):** ₹299
-**Net Wt.:** 200g
-**Shelf life:** Use within 6 months from the date of manufacture
-
----
-
-### Pumpkin & Oats
-
-> Nature's goodness in every bite.
-> Pawstiq treats are handcrafted and inspired by pure love for pets.
-
-Lovingly crafted with wholesome ingredients — no fillers, no junk, just pure goodness.
-
-**Ingredients**
-- Pumpkin
-- Oats
-- Wheat Flour
-- Peanut Butter
-- Coconut Oil
-
-**Feeding Guide**
-Serve as a snack or reward treat. Not a meal substitute.
-
-**Storage**
-- Store in cool, dry place
-- Keep sealed after opening
-- Consume within 30 days of opening
-
-**Highlight:** Rich in Fiber
-
-**Not for Human Consumption**
-
-**Manufactured by:**
-Pawstiq Pets
-Bengaluru, Karnataka
-pawstiq@gmail.com
-
-**MRP (inc. all taxes):** ₹299
-**Net Wt.:** 200g
-**Shelf life:** Use within 6 months from the date of manufacture
-
----
+See [PRODUCTS.md](PRODUCTS.md) for full label details of all three products.
