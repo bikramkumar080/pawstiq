@@ -4,7 +4,7 @@ Premium handcrafted organic dog treats. Made in Bengaluru.
 
 ## About
 
-Pawstiq is a static landing page for the Pawstiq dog treats brand, built with plain HTML, CSS, and JavaScript. Hosted on GitHub Pages — no backend, no framework.
+Pawstiq is a static landing page for the Pawstiq dog treats brand, built with plain HTML, CSS, and JavaScript. Hosted on GitHub Pages - no backend, no framework.
 
 ## Tech Stack
 

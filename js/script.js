@@ -1,5 +1,5 @@
 /* =====================================================
-   PAWSTIQ — script.js
+   PAWSTIQ - script.js
    ===================================================== */
 
 /* ---------- Navbar: shadow on scroll + active link ---------- */
@@ -349,7 +349,6 @@ function toggleBackToTop() {
       const id = addBtn.dataset.id;
       cart[id] = (cart[id] || 0) + 1;
       saveCart(); updateBadge(); updateCardBtn(id, cart[id]);
-      openCart();
       return;
     }
     // Card qty buttons
@@ -506,7 +505,7 @@ function toggleBackToTop() {
       errorEl.textContent = 'Please fill in all required fields.'; return;
     }
     if (chicken === '0' && pumpkin === '0' && banana === '0') {
-      errorEl.textContent = 'Your cart is empty — please add at least one product.'; return;
+      errorEl.textContent = 'Your cart is empty - please add at least one product.'; return;
     }
 
     orderData = { name, phone, email, address, city, state, pincode, chicken, pumpkin, banana, notes, total };
@@ -558,6 +557,15 @@ function toggleBackToTop() {
       confirmSubmit.disabled = false;
       confirmSubmit.textContent = 'Yes, Place Order';
     }
+  });
+})();
+
+/* ---------- Ingredient flip cards (mobile tap) ---------- */
+(function initFlipCards() {
+  document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
   });
 })();
 

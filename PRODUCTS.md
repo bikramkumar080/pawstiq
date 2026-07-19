@@ -1,4 +1,4 @@
-# Pawstiq — Product Details
+# Pawstiq - Product Details
 
 ---
 
@@ -7,7 +7,7 @@
 > Nature's goodness in every bite.
 > Pawstiq treats are handcrafted and inspired by pure love for pets.
 
-Lovingly crafted with 100% real chicken — no fillers, no junk, just pure goodness.
+Lovingly crafted with 100% real chicken - no fillers, no junk, just pure goodness.
 
 **Ingredients**
 - 100% Lean Chicken Breast
@@ -42,7 +42,7 @@ pawstiq@gmail.com
 > Nature's goodness in every bite.
 > Pawstiq treats are handcrafted and inspired by pure love for pets.
 
-Lovingly crafted with wholesome ingredients — no fillers, no junk, just pure goodness.
+Lovingly crafted with wholesome ingredients - no fillers, no junk, just pure goodness.
 
 **Ingredients**
 - Banana
@@ -79,7 +79,7 @@ pawstiq@gmail.com
 > Nature's goodness in every bite.
 > Pawstiq treats are handcrafted and inspired by pure love for pets.
 
-Lovingly crafted with wholesome ingredients — no fillers, no junk, just pure goodness.
+Lovingly crafted with wholesome ingredients - no fillers, no junk, just pure goodness.
 
 **Ingredients**
 - Pumpkin

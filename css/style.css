@@ -1,5 +1,5 @@
 /* =====================================================
-   PAWSTIQ — Premium Organic Dog Treats
+   PAWSTIQ - Premium Organic Dog Treats
    style.css
    ===================================================== */
 
@@ -520,31 +520,81 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .ingredients .section-subtitle { color: rgba(255,255,255,.75); }
 .ingredients-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
   margin-bottom: 40px;
 }
-@media (min-width: 960px) {
-  .ingredients-grid { grid-template-columns: repeat(7, 1fr); }
+@media (min-width: 540px) {
+  .ingredients-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 900px) {
+  .ingredients-grid { grid-template-columns: repeat(4, 1fr); }
 }
 .ingredient {
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.18);
+  background: transparent;
+  border: none;
   border-radius: var(--radius-md);
-  padding: 28px 16px;
+  padding: 0;
   text-align: center;
-  transition: background var(--transition), transform var(--transition);
 }
-.ingredient:hover {
-  background: rgba(255,255,255,.18);
-  transform: translateY(-4px);
-}
+.ingredient:hover { background: transparent; transform: none; }
 .ingredient-icon { font-size: 2.25rem; display: block; margin-bottom: 10px; }
 .ingredient-name {
   font-size: .8rem;
   font-weight: 600;
   color: rgba(255,255,255,.85);
   letter-spacing: .04em;
+}
+/* Flip card */
+.flip-card {
+  perspective: 1000px;
+  cursor: pointer;
+  height: 200px;
+}
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .55s cubic-bezier(.4,0,.2,1);
+}
+.flip-card:hover .flip-inner,
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front,
+.flip-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+}
+.flip-front {
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
+  gap: 10px;
+}
+.flip-back {
+  background: var(--white);
+  transform: rotateY(180deg);
+  gap: 8px;
+}
+.flip-back h4 {
+  font-family: var(--font-heading);
+  font-size: .9rem;
+  color: var(--olive);
+  text-align: center;
+}
+.flip-back p {
+  font-size: .78rem;
+  color: var(--text-light);
+  line-height: 1.55;
+  text-align: center;
+  margin: 0;
 }
 .ingredients-note {
   text-align: center;
@@ -693,7 +743,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 /* ======================================================
    FAQ
    ====================================================== */
-.faq { background: var(--white); }
+.faq { background: var(--beige); }
 .faq-list {
   max-width: 760px;
   margin: 0 auto;
@@ -754,14 +804,16 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 /* ======================================================
    CONTACT
    ====================================================== */
-.contact { background: var(--beige); }
+.contact { background: var(--white); }
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+  max-width: 760px;
+  margin: 0 auto;
 }
 .contact-card {
-  background: var(--white);
+  background: var(--beige);
   border-radius: var(--radius-lg);
   padding: 32px 24px;
   text-align: center;
@@ -772,7 +824,23 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   transform: translateY(-4px);
   box-shadow: var(--shadow-card);
 }
-.contact-icon { font-size: 2rem; margin-bottom: 12px; }
+.contact-tagline {
+  max-width: 580px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.contact-tagline p {
+  font-size: .95rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  font-style: italic;
+}
+.contact-response-time {
+  font-size: .78rem;
+  color: var(--text-muted);
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+}
 .contact-card h3 {
   font-family: var(--font-heading);
   font-size: 1.1rem;
@@ -1439,12 +1507,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   0%,100% { transform: translateY(0) scale(1); }
   30%     { transform: translateY(-8px) scale(1.15); }
   60%     { transform: translateY(-2px) scale(1.05); }
-}
-
-/* Ingredient card glow on hover */
-.ingredient:hover {
-  background: rgba(255,255,255,.22);
-  box-shadow: 0 0 20px rgba(255,255,255,.12);
 }
 
 /* ======================================================
