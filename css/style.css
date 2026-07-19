@@ -1343,6 +1343,24 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-size: 1rem;
   font-weight: 700;
 }
+.cart-subtotal-row, .cart-shipping-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .88rem;
+  color: var(--text-light);
+  padding: 2px 0;
+}
+.cart-shipping-row { color: var(--text); }
+.cart-free-shipping {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--olive);
+  background: rgba(107,122,75,.08);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  text-align: center;
+}
 .cart-total-row span:last-child {
   font-size: 1.4rem;
   color: var(--olive);

@@ -289,7 +289,21 @@ function toggleBackToTop() {
       itemsEl.appendChild(el);
     });
 
-    if (totalEl) totalEl.textContent = '₹' + totalPrice();
+    // Shipping calculation
+    const subtotal = totalPrice();
+    const shipping = subtotal > 0 && subtotal < 500 ? 50 : 0;
+    const grandTotal = subtotal + shipping;
+
+    const subtotalEl      = document.getElementById('cartSubtotal');
+    const shippingRowEl   = document.getElementById('cartShippingRow');
+    const shippingEl      = document.getElementById('cartShipping');
+    const freeShippingEl  = document.getElementById('cartFreeShipping');
+
+    if (subtotalEl)     subtotalEl.textContent     = '₹' + subtotal;
+    if (shippingRowEl)  shippingRowEl.style.display = shipping > 0 ? 'flex' : 'none';
+    if (shippingEl)     shippingEl.textContent      = '₹' + shipping;
+    if (freeShippingEl) freeShippingEl.style.display = subtotal >= 500 && subtotal > 0 ? 'block' : 'none';
+    if (totalEl)        totalEl.textContent          = '₹' + grandTotal;
   }
 
   function openCart() {
@@ -367,6 +381,8 @@ function toggleBackToTop() {
       if (productsEl) {
         const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
         window.scrollTo({ top: productsEl.offsetTop - navH, behavior: 'smooth' });
+      } else {
+        window.location.href = window.location.pathname.includes('/products/') ? '../index.html#products' : '#products';
       }
       return;
     }
@@ -422,9 +438,10 @@ function toggleBackToTop() {
 
   function calcTotal() {
     const cart = window.getCart ? window.getCart() : {};
-    let total = 0;
-    Object.entries(cart).forEach(([id, qty]) => { total += (PRICES[id] || 0) * qty; });
-    if (totalEl) totalEl.textContent = '₹' + total;
+    let subtotal = 0;
+    Object.entries(cart).forEach(([id, qty]) => { subtotal += (PRICES[id] || 0) * qty; });
+    const shipping = subtotal > 0 && subtotal < 500 ? 50 : 0;
+    if (totalEl) totalEl.textContent = '₹' + (subtotal + shipping);
   }
 
   window.openCheckout = function() {
@@ -472,7 +489,9 @@ function toggleBackToTop() {
     const chicken = String(cart.chicken || 0);
     const pumpkin = String(cart.pumpkin || 0);
     const banana  = String(cart.banana  || 0);
-    const total   = '₹' + (299 * parseInt(chicken) + 249 * parseInt(pumpkin) + 249 * parseInt(banana));
+    const subtotal = 299 * parseInt(chicken) + 249 * parseInt(pumpkin) + 249 * parseInt(banana);
+    const shipping = subtotal > 0 && subtotal < 500 ? 50 : 0;
+    const total = '₹' + (subtotal + shipping);
 
     if (!name || !phone || !address || !city || !state || !pincode) {
       errorEl.textContent = 'Please fill in all required fields.'; return;
