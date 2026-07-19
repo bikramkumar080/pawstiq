@@ -31,7 +31,10 @@
           <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
         </ul>
       </nav>
-      <button class="btn btn-primary nav-cta order-btn">Order Now</button>
+      <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
         <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </button>
@@ -74,7 +77,7 @@
             <span class="product-weight">70g</span>
           </div>
 
-          <button class="btn btn-primary btn-lg order-btn" style="width:100%;justify-content:center;">Order Now</button>
+          <button class="btn btn-primary btn-lg add-to-cart-btn" data-id="chicken" data-name="Chicken Jerky" data-price="299" data-weight="70g" style="width:100%;justify-content:center;">+ Add to Cart</button>
           <p class="product-note">We'll contact you to confirm your order &amp; share payment details.</p>
         </div>
       </div>
@@ -148,29 +151,41 @@
     </div>
   </section>
 
-  <!-- ORDER MODAL (same as index) -->
-  <div class="order-modal-overlay" id="orderModal" role="dialog" aria-modal="true" aria-label="Place your order">
+  <!-- CART DRAWER -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="cart-header">
+      <h2 class="cart-title">Your Cart</h2>
+      <button class="cart-close" id="cartClose" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="cart-empty" id="cartEmpty">
+      <span>🐾</span>
+      <p>Your cart is empty</p>
+      <a href="../index.html#products" class="btn btn-outline" id="cartShopLink">Browse Treats</a>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-total-row"><span>Total</span><span id="cartTotal">₹0</span></div>
+      <button class="btn btn-primary btn-lg cart-checkout-btn" id="cartCheckoutBtn">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="order-modal-overlay" id="orderModal" role="dialog" aria-modal="true" aria-label="Checkout">
     <div class="order-modal">
       <button class="order-modal-close" id="orderModalClose" aria-label="Close">&times;</button>
-      <span class="section-tag">Place Your Order</span>
-      <h2 class="order-modal-title">We'll confirm your order shortly</h2>
-      <p class="order-modal-subtitle">Fill in your details — we'll reach out to confirm and share payment info.</p>
+      <span class="section-tag">Checkout</span>
+      <h2 class="order-modal-title">Delivery Details</h2>
+      <p class="order-modal-subtitle">Fill in your details — we'll confirm and share payment info.</p>
       <form class="order-form" id="orderForm" novalidate>
         <div class="form-group"><label for="of-name">Your Name *</label><input type="text" id="of-name" name="name" placeholder="e.g. Priya Sharma" required /></div>
         <div class="form-group"><label for="of-phone">Phone Number *</label><input type="tel" id="of-phone" name="phone" placeholder="e.g. 9876543210" required /></div>
         <div class="form-group"><label for="of-address">House / Flat No. & Street *</label><textarea id="of-address" name="address" rows="2" placeholder="e.g. 12, 3rd Cross, MG Road" required></textarea></div>
         <div class="form-row">
-          <div class="form-group"><label for="of-city">City *</label><input type="text" id="of-city" name="city" placeholder="e.g. Bengaluru" required /></div>
-          <div class="form-group"><label for="of-state">State *</label><input type="text" id="of-state" name="state" placeholder="e.g. Karnataka" required /></div>
+          <div class="form-group"><label for="of-city">City *</label><input type="text" id="of-city" name="city" placeholder="Bengaluru" required /></div>
+          <div class="form-group"><label for="of-state">State *</label><input type="text" id="of-state" name="state" placeholder="Karnataka" required /></div>
           <div class="form-group"><label for="of-pincode">Pincode *</label><input type="text" id="of-pincode" name="pincode" placeholder="560001" required maxlength="6" /></div>
         </div>
-        <p class="form-section-label">Select Quantities</p>
-        <div class="form-qty-grid">
-          <div class="form-qty-item"><span class="form-qty-name">Chicken Jerky</span><span class="form-qty-price">₹299 · 70g</span><select id="of-chicken" name="chicken" class="qty-select" data-price="299"><option value="0">0</option><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
-          <div class="form-qty-item"><span class="form-qty-name">Pumpkin & Oats</span><span class="form-qty-price">₹249 · 200g</span><select id="of-pumpkin" name="pumpkin" class="qty-select" data-price="249"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
-          <div class="form-qty-item"><span class="form-qty-name">Banana & Oats</span><span class="form-qty-price">₹249 · 200g</span><select id="of-banana" name="banana" class="qty-select" data-price="249"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
-        </div>
-        <div class="order-total" id="orderTotal"><span>Total</span><span id="orderTotalAmount">₹0</span></div>
         <div class="form-group"><label for="of-notes">Special Instructions <span class="form-optional">(optional)</span></label><textarea id="of-notes" name="notes" rows="2" placeholder="Any allergies, delivery preferences, etc."></textarea></div>
         <div class="form-error" id="formError"></div>
         <button type="submit" class="btn btn-primary btn-lg form-submit" id="formSubmit">Review Order →</button>

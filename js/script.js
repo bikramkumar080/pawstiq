@@ -225,9 +225,180 @@ function toggleBackToTop() {
   imgs.forEach(img => io.observe(img));
 })();
 
-/* ---------- Order Modal ---------- */
-(function initOrderModal() {
+/* ---------- Cart ---------- */
+(function initCart() {
+  const PRODUCTS = {
+    chicken: { name: 'Chicken Jerky',   price: 299, weight: '70g',  img: 'images/chicken.png' },
+    pumpkin: { name: 'Pumpkin & Oats',  price: 249, weight: '200g', img: 'images/pumpkin.png' },
+    banana:  { name: 'Banana & Oats',   price: 249, weight: '200g', img: 'images/banana.png'  }
+  };
+
+  // Resolve image path relative to current page
+  function imgPath(src) {
+    if (window.location.pathname.includes('/products/')) return '../' + src;
+    return src;
+  }
+
+  let cart = JSON.parse(localStorage.getItem('pawstiq_cart') || '{}');
+
+  function saveCart() { localStorage.setItem('pawstiq_cart', JSON.stringify(cart)); }
+
+  function totalCount() { return Object.values(cart).reduce((s, q) => s + q, 0); }
+
+  function totalPrice() {
+    return Object.entries(cart).reduce((s, [id, q]) => s + PRODUCTS[id].price * q, 0);
+  }
+
+  function updateBadge() {
+    document.querySelectorAll('.cart-badge').forEach(b => {
+      const count = totalCount();
+      b.textContent = count;
+      b.classList.toggle('visible', count > 0);
+    });
+  }
+
+  function renderCartItems() {
+    const itemsEl  = document.getElementById('cartItems');
+    const emptyEl  = document.getElementById('cartEmpty');
+    const footerEl = document.getElementById('cartFooter');
+    const totalEl  = document.getElementById('cartTotal');
+    if (!itemsEl) return;
+
+    const count = totalCount();
+    emptyEl.style.display  = count === 0 ? 'flex' : 'none';
+    itemsEl.style.display  = count === 0 ? 'none' : 'flex';
+    footerEl.style.display = count === 0 ? 'none' : 'flex';
+
+    itemsEl.innerHTML = '';
+    Object.entries(cart).forEach(([id, qty]) => {
+      if (qty === 0) return;
+      const p = PRODUCTS[id];
+      const el = document.createElement('div');
+      el.className = 'cart-item';
+      el.innerHTML = `
+        <img src="${imgPath(p.img)}" alt="${p.name}" class="cart-item-img" />
+        <div class="cart-item-info">
+          <div class="cart-item-name">${p.name}</div>
+          <div class="cart-item-price">₹${p.price} · ${p.weight}</div>
+        </div>
+        <div class="cart-item-controls">
+          <button class="qty-btn" data-action="dec" data-id="${id}">−</button>
+          <span class="qty-count">${qty}</span>
+          <button class="qty-btn" data-action="inc" data-id="${id}">+</button>
+        </div>`;
+      itemsEl.appendChild(el);
+    });
+
+    if (totalEl) totalEl.textContent = '₹' + totalPrice();
+  }
+
+  function openCart() {
+    document.getElementById('cartDrawer').classList.add('open');
+    document.getElementById('cartOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    renderCartItems();
+  }
+
+  function closeCart() {
+    document.getElementById('cartDrawer').classList.remove('open');
+    document.getElementById('cartOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function updateCardBtn(id, qty) {
+    const p = PRODUCTS[id];
+
+    function makeEl() {
+      const wrapper = document.createElement('div');
+      if (qty === 0) {
+        wrapper.innerHTML = `<button class="btn btn-primary add-to-cart-btn" data-id="${id}" data-name="${p.name}" data-price="${p.price}" data-weight="${p.weight}">+ Add to Cart</button>`;
+      } else {
+        wrapper.innerHTML = `<div class="card-qty-control" data-id="${id}">
+          <button class="card-qty-btn" data-action="dec" data-id="${id}">−</button>
+          <span class="card-qty-num">${qty}</span>
+          <button class="card-qty-btn" data-action="inc" data-id="${id}">+</button>
+        </div>`;
+      }
+      return wrapper.firstElementChild;
+    }
+
+    document.querySelectorAll(`.add-to-cart-btn[data-id="${id}"], .card-qty-control[data-id="${id}"]`).forEach(el => {
+      el.replaceWith(makeEl());
+    });
+  }
+
+  function syncCardBtns() {
+    Object.keys(PRODUCTS).forEach(id => {
+      updateCardBtn(id, cart[id] || 0);
+    });
+  }
+
+  // Event delegation for all cart interactions
+  document.addEventListener('click', function(e) {
+    // Add to cart
+    const addBtn = e.target.closest('.add-to-cart-btn');
+    if (addBtn) {
+      const id = addBtn.dataset.id;
+      cart[id] = (cart[id] || 0) + 1;
+      saveCart(); updateBadge(); updateCardBtn(id, cart[id]);
+      openCart();
+      return;
+    }
+    // Card qty buttons
+    const cardQtyBtn = e.target.closest('.card-qty-btn');
+    if (cardQtyBtn) {
+      const id  = cardQtyBtn.dataset.id;
+      const act = cardQtyBtn.dataset.action;
+      if (act === 'inc') cart[id] = Math.min((cart[id] || 0) + 1, 5);
+      if (act === 'dec') {
+        cart[id] = (cart[id] || 1) - 1;
+        if (cart[id] === 0) delete cart[id];
+      }
+      saveCart(); updateBadge(); updateCardBtn(id, cart[id] || 0);
+      renderCartItems(); return;
+    }
+    // Open cart
+    if (e.target.closest('#cartBtn') || e.target.closest('#viewCartBtn') ||
+        e.target.closest('#heroCartBtn') || e.target.closest('#reviewsCartBtn')) {
+      openCart(); return;
+    }
+    // Close cart
+    if (e.target.closest('#cartClose') || e.target.closest('#cartOverlay')) {
+      closeCart(); return;
+    }
+    // Shop link inside empty cart
+    if (e.target.closest('#cartShopLink')) { closeCart(); return; }
+    // Qty buttons
+    const qtyBtn = e.target.closest('.qty-btn');
+    if (qtyBtn) {
+      const id  = qtyBtn.dataset.id;
+      const act = qtyBtn.dataset.action;
+      if (act === 'inc') cart[id] = Math.min((cart[id] || 0) + 1, 5);
+      if (act === 'dec') {
+        cart[id] = (cart[id] || 1) - 1;
+        if (cart[id] === 0) delete cart[id];
+      }
+      saveCart(); updateBadge(); renderCartItems(); return;
+    }
+    // Checkout
+    if (e.target.closest('#cartCheckoutBtn')) {
+      closeCart();
+      openCheckout(); return;
+    }
+  });
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+
+  updateBadge();
+  syncCardBtns();
+  window.getCart = () => cart;
+  window.openCart = openCart;
+})();
+
+/* ---------- Checkout Modal ---------- */
+(function initCheckout() {
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWS6IUvvf1_wqub84JZPUoPk5qaX5DAcJONBOqzyG3Bg8J0rMnS6HvVMTJTVh0_R5e/exec';
+  const PRICES = { chicken: 299, pumpkin: 249, banana: 249 };
 
   const overlay       = document.getElementById('orderModal');
   const closeBtn      = document.getElementById('orderModalClose');
@@ -248,15 +419,25 @@ function toggleBackToTop() {
   let orderData = {};
 
   function calcTotal() {
+    const cart = window.getCart ? window.getCart() : {};
     let total = 0;
-    document.querySelectorAll('.qty-select').forEach(sel => {
-      total += parseInt(sel.value) * parseInt(sel.dataset.price);
-    });
-    totalEl.textContent = '₹' + total;
+    Object.entries(cart).forEach(([id, qty]) => { total += (PRICES[id] || 0) * qty; });
+    if (totalEl) totalEl.textContent = '₹' + total;
   }
-  document.querySelectorAll('.qty-select').forEach(sel => {
-    sel.addEventListener('change', calcTotal);
-  });
+
+  window.openCheckout = function() {
+    if (!overlay) return;
+    calcTotal();
+    errorEl.textContent = '';
+    showStep('form');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
   function showStep(step) {
     form.style.display = step === 'form' ? '' : 'none';
@@ -264,30 +445,15 @@ function toggleBackToTop() {
     successEl.classList.toggle('show', step === 'success');
   }
 
-  function openModal() {
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    form.reset();
-    errorEl.textContent = '';
-    calcTotal();
-    showStep('form');
-  }
-
-  function closeModal() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.addEventListener('click', function(e) {
-    if (e.target.closest('.order-btn')) openModal();
-  });
-
   closeBtn.addEventListener('click', closeModal);
   if (successClose) successClose.addEventListener('click', closeModal);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  // Step 1: validate & show confirmation
+  document.querySelectorAll('.qty-select').forEach(sel => {
+    sel.addEventListener('change', calcTotal);
+  });
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     errorEl.textContent = '';
@@ -298,43 +464,42 @@ function toggleBackToTop() {
     const city    = document.getElementById('of-city').value.trim();
     const state   = document.getElementById('of-state').value.trim();
     const pincode = document.getElementById('of-pincode').value.trim();
-    const chicken = document.getElementById('of-chicken').value;
-    const pumpkin = document.getElementById('of-pumpkin').value;
-    const banana  = document.getElementById('of-banana').value;
     const notes   = document.getElementById('of-notes').value.trim();
-    const total   = totalEl.textContent;
+
+    const cart    = window.getCart ? window.getCart() : {};
+    const chicken = String(cart.chicken || 0);
+    const pumpkin = String(cart.pumpkin || 0);
+    const banana  = String(cart.banana  || 0);
+    const total   = '₹' + (299 * parseInt(chicken) + 249 * parseInt(pumpkin) + 249 * parseInt(banana));
 
     if (!name || !phone || !address || !city || !state || !pincode) {
-      errorEl.textContent = 'Please fill in all required fields.';
-      return;
+      errorEl.textContent = 'Please fill in all required fields.'; return;
     }
     if (chicken === '0' && pumpkin === '0' && banana === '0') {
-      errorEl.textContent = 'Please select at least one product.';
-      return;
+      errorEl.textContent = 'Your cart is empty — please add at least one product.'; return;
     }
 
     orderData = { name, phone, address, city, state, pincode, chicken, pumpkin, banana, notes, total };
 
     let items = [];
-    if (chicken !== '0') items.push(`Chicken Jerky × ${chicken}`);
-    if (pumpkin !== '0') items.push(`Pumpkin & Oats × ${pumpkin}`);
-    if (banana  !== '0') items.push(`Banana & Oats × ${banana}`);
+    if (chicken !== '0') items.push(`Chicken Jerky × ${chicken} = ₹${299 * parseInt(chicken)}`);
+    if (pumpkin !== '0') items.push(`Pumpkin & Oats × ${pumpkin} = ₹${249 * parseInt(pumpkin)}`);
+    if (banana  !== '0') items.push(`Banana & Oats × ${banana} = ₹${249 * parseInt(banana)}`);
 
     confirmSummary.innerHTML =
       `<div>👤 <strong>${name}</strong></div>` +
       `<div>📞 ${phone}</div>` +
       `<div>📦 ${address}, ${city}, ${state} – ${pincode}</div>` +
-      `<div>🛒 ${items.join(', ')}</div>` +
-      `<div>💰 <strong>${total}</strong></div>` +
+      `<hr style="border:none;border-top:1px solid var(--border);margin:8px 0"/>` +
+      items.map(i => `<div>🛒 ${i}</div>`).join('') +
+      `<div style="margin-top:8px;font-size:1rem">💰 <strong>${total}</strong></div>` +
       (notes ? `<div>📝 ${notes}</div>` : '');
 
     showStep('confirm');
   });
 
-  // Back to form
   confirmBack.addEventListener('click', () => showStep('form'));
 
-  // Step 2: submit
   confirmSubmit.addEventListener('click', async function() {
     confirmError.textContent = '';
     confirmSubmit.disabled = true;
@@ -342,15 +507,15 @@ function toggleBackToTop() {
 
     try {
       await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
+        method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(orderData)
       });
-
+      // Clear cart after successful order
+      localStorage.removeItem('pawstiq_cart');
+      if (window.openCart) document.getElementById('cartBadge') && (document.getElementById('cartBadge').textContent = '0');
       successPhone.textContent = orderData.phone;
       showStep('success');
-
     } catch (err) {
       confirmError.textContent = 'Something went wrong. Please try again or contact us on Instagram.';
     } finally {
