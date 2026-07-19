@@ -1464,8 +1464,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   .section { padding: 72px 0; }
 
   /* Navbar mobile */
-  .hamburger { display: flex; }
+  .hamburger { display: flex; margin-left: 0; }
   .nav-cta { display: none; }
+  .cart-btn { margin-left: auto; }
   .nav-menu {
     position: fixed;
     top: var(--nav-h);
