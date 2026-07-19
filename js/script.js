@@ -390,7 +390,8 @@ function toggleBackToTop() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
 
   updateBadge();
-  syncCardBtns();
+  document.addEventListener('DOMContentLoaded', syncCardBtns);
+  if (document.readyState !== 'loading') syncCardBtns();
   window.getCart = () => cart;
   window.openCart = openCart;
 })();
