@@ -343,7 +343,7 @@ function toggleBackToTop() {
     if (cardQtyBtn) {
       const id  = cardQtyBtn.dataset.id;
       const act = cardQtyBtn.dataset.action;
-      if (act === 'inc') cart[id] = Math.min((cart[id] || 0) + 1, 5);
+      if (act === 'inc') cart[id] = (cart[id] || 0) + 1;
       if (act === 'dec') {
         cart[id] = (cart[id] || 1) - 1;
         if (cart[id] === 0) delete cart[id];
@@ -360,14 +360,22 @@ function toggleBackToTop() {
     if (e.target.closest('#cartClose') || e.target.closest('#cartOverlay')) {
       closeCart(); return;
     }
-    // Shop link inside empty cart
-    if (e.target.closest('#cartShopLink')) { closeCart(); return; }
+    // Browse Treats (empty cart) or Add More Items
+    if (e.target.closest('#cartShopLink') || e.target.closest('#cartAddMore')) {
+      closeCart();
+      const productsEl = document.getElementById('products');
+      if (productsEl) {
+        const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+        window.scrollTo({ top: productsEl.offsetTop - navH, behavior: 'smooth' });
+      }
+      return;
+    }
     // Qty buttons
     const qtyBtn = e.target.closest('.qty-btn');
     if (qtyBtn) {
       const id  = qtyBtn.dataset.id;
       const act = qtyBtn.dataset.action;
-      if (act === 'inc') cart[id] = Math.min((cart[id] || 0) + 1, 5);
+      if (act === 'inc') cart[id] = (cart[id] || 0) + 1;
       if (act === 'dec') {
         cart[id] = (cart[id] || 1) - 1;
         if (cart[id] === 0) delete cart[id];

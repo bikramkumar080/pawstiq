@@ -1349,6 +1349,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-family: var(--font-body);
 }
 .cart-checkout-btn { width: 100%; justify-content: center; }
+.cart-add-more-btn, #cartAddMore {
+  width: 100%;
+  justify-content: center;
+}
 
 /* ======================================================
    ADVANCED VISUAL EFFECTS
