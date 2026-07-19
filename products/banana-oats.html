@@ -190,6 +190,7 @@
       <form class="order-form" id="orderForm" novalidate>
         <div class="form-group"><label for="of-name">Your Name *</label><input type="text" id="of-name" name="name" placeholder="e.g. Priya Sharma" required /></div>
         <div class="form-group"><label for="of-phone">Phone Number *</label><input type="tel" id="of-phone" name="phone" placeholder="e.g. 9876543210" required /></div>
+        <div class="form-group"><label for="of-email">Email Address <span class="form-optional">(optional)</span></label><input type="email" id="of-email" name="email" placeholder="e.g. priya@gmail.com" /></div>
         <div class="form-group"><label for="of-address">House / Flat No. & Street *</label><textarea id="of-address" name="address" rows="2" placeholder="e.g. 12, 3rd Cross, MG Road" required></textarea></div>
         <div class="form-row">
           <div class="form-group"><label for="of-city">City *</label><input type="text" id="of-city" name="city" placeholder="Bengaluru" required /></div>
@@ -210,6 +211,7 @@
       <div class="order-success" id="orderSuccess">
         <div class="order-success-icon">🐾</div>
         <h3>Order Received!</h3>
+        <p class="success-order-id">Order ID: <strong id="successOrderId"></strong></p>
         <p>Thank you! We'll contact you shortly on <strong id="successPhone"></strong> to confirm your order and share payment details.</p>
         <button class="btn btn-outline" id="orderSuccessClose">Close</button>
       </div>

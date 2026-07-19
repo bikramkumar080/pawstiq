@@ -411,11 +411,19 @@ function toggleBackToTop() {
   syncCardBtns();
   window.getCart = () => cart;
   window.openCart = openCart;
+  window.updateBadgeAfterOrder = function() {
+    cart = {};
+    document.querySelectorAll('.cart-badge').forEach(b => {
+      b.textContent = '0';
+      b.classList.remove('visible');
+    });
+    syncCardBtns();
+  };
 })();
 
 /* ---------- Checkout Modal ---------- */
 (function initCheckout() {
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyWS6IUvvf1_wqub84JZPUoPk5qaX5DAcJONBOqzyG3Bg8J0rMnS6HvVMTJTVh0_R5e/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxnNNZ3YEi1vYP36u5LloO3yYQPa952JPszIIA-Li6U5wCNSoqJ4vJv0gXW_hK3T8c/exec';
   const PRICES = { chicken: 299, pumpkin: 249, banana: 249 };
 
   const overlay       = document.getElementById('orderModal');
@@ -479,6 +487,7 @@ function toggleBackToTop() {
 
     const name    = document.getElementById('of-name').value.trim();
     const phone   = document.getElementById('of-phone').value.trim();
+    const email   = document.getElementById('of-email') ? document.getElementById('of-email').value.trim() : '';
     const address = document.getElementById('of-address').value.trim();
     const city    = document.getElementById('of-city').value.trim();
     const state   = document.getElementById('of-state').value.trim();
@@ -500,7 +509,7 @@ function toggleBackToTop() {
       errorEl.textContent = 'Your cart is empty — please add at least one product.'; return;
     }
 
-    orderData = { name, phone, address, city, state, pincode, chicken, pumpkin, banana, notes, total };
+    orderData = { name, phone, email, address, city, state, pincode, chicken, pumpkin, banana, notes, total };
 
     let items = [];
     if (chicken !== '0') items.push(`Chicken Jerky × ${chicken} = ₹${299 * parseInt(chicken)}`);
@@ -510,6 +519,7 @@ function toggleBackToTop() {
     confirmSummary.innerHTML =
       `<div>👤 <strong>${name}</strong></div>` +
       `<div>📞 ${phone}</div>` +
+      (email ? `<div>📧 ${email}</div>` : '') +
       `<div>📦 ${address}, ${city}, ${state} – ${pincode}</div>` +
       `<hr style="border:none;border-top:1px solid var(--border);margin:8px 0"/>` +
       items.map(i => `<div>🛒 ${i}</div>`).join('') +
@@ -527,15 +537,20 @@ function toggleBackToTop() {
     confirmSubmit.textContent = 'Placing...';
 
     try {
+      const orderId = 'PQ-' + new Date().getFullYear() + '-' + String(Math.floor(100000 + Math.random() * 900000));
+      orderData.orderId = orderId;
+
       await fetch(SCRIPT_URL, {
         method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(orderData)
       });
-      // Clear cart after successful order
+
       localStorage.removeItem('pawstiq_cart');
-      if (window.openCart) document.getElementById('cartBadge') && (document.getElementById('cartBadge').textContent = '0');
+      updateBadgeAfterOrder();
       successPhone.textContent = orderData.phone;
+      const successOrderIdEl = document.getElementById('successOrderId');
+      if (successOrderIdEl) successOrderIdEl.textContent = orderId;
       showStep('success');
     } catch (err) {
       confirmError.textContent = 'Something went wrong. Please try again or contact us on Instagram.';

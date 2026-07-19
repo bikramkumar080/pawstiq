@@ -1050,6 +1050,16 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   color: var(--olive);
 }
 .order-success p { font-size: .95rem; color: var(--text-light); margin-bottom: 24px; line-height: 1.7; }
+.success-order-id {
+  font-size: .85rem;
+  background: var(--beige);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  margin-bottom: 12px !important;
+  color: var(--text-muted);
+  letter-spacing: .04em;
+}
 .order-modal-overlay {
   position: fixed;
   inset: 0;
