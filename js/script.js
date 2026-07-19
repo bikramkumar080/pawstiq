@@ -307,20 +307,17 @@ function toggleBackToTop() {
 
   function updateCardBtn(id, qty) {
     const p = PRODUCTS[id];
-
-    document.querySelectorAll(`.add-to-cart-btn[data-id="${id}"], .card-qty-control[data-id="${id}"]`).forEach(el => {
-      const isFullWidth = el.style.width === '100%';
-      const wrapper = document.createElement('div');
+    document.querySelectorAll(`.cart-action-wrap[data-id="${id}"]`).forEach(wrap => {
+      const fullWidth = wrap.querySelector('[style*="width:100%"]') !== null || wrap.closest('.product-hero-info') !== null;
       if (qty === 0) {
-        wrapper.innerHTML = `<button class="btn btn-primary add-to-cart-btn" data-id="${id}" data-name="${p.name}" data-price="${p.price}" data-weight="${p.weight}"${isFullWidth ? ' style="width:100%;justify-content:center;"' : ''}>+ Add to Cart</button>`;
+        wrap.innerHTML = `<button class="btn btn-primary add-to-cart-btn" data-id="${id}" data-name="${p.name}" data-price="${p.price}" data-weight="${p.weight}"${fullWidth ? ' style="width:100%;justify-content:center;"' : ''}>+ Add to Cart</button>`;
       } else {
-        wrapper.innerHTML = `<div class="card-qty-control" data-id="${id}"${isFullWidth ? ' style="width:100%"' : ''}>
+        wrap.innerHTML = `<div class="card-qty-control" data-id="${id}"${fullWidth ? ' style="width:100%"' : ''}>
           <button class="card-qty-btn" data-action="dec" data-id="${id}">−</button>
           <span class="card-qty-num">${qty}</span>
           <button class="card-qty-btn" data-action="inc" data-id="${id}">+</button>
         </div>`;
       }
-      el.replaceWith(wrapper.firstElementChild);
     });
   }
 
@@ -375,7 +372,7 @@ function toggleBackToTop() {
         cart[id] = (cart[id] || 1) - 1;
         if (cart[id] === 0) delete cart[id];
       }
-      saveCart(); updateBadge(); renderCartItems(); return;
+      saveCart(); updateBadge(); renderCartItems(); updateCardBtn(id, cart[id] || 0); return;
     }
     // Checkout
     if (e.target.closest('#cartCheckoutBtn')) {
