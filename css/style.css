@@ -1144,16 +1144,82 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .back-to-top:hover { background: var(--olive-dark); }
 
 /* ======================================================
+   ADVANCED VISUAL EFFECTS
+   ====================================================== */
+
+/* Shimmer gradient on section tags */
+.section-tag {
+  background-image: linear-gradient(90deg,
+    rgba(107,122,75,.10) 0%,
+    rgba(107,122,75,.22) 40%,
+    rgba(107,122,75,.10) 100%);
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+}
+.hero-tag {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite, hero-tag-float 3s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes hero-tag-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+/* Gradient gloss on primary buttons */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.btn-primary:hover::after { opacity: 1; }
+
+/* Hero content entrance animations */
+.hero-headline { animation: fadeUp .9s cubic-bezier(.22,1,.36,1) both .2s; }
+.hero-sub      { animation: fadeUp .9s cubic-bezier(.22,1,.36,1) both .35s; }
+.hero-actions  { animation: fadeUp .9s cubic-bezier(.22,1,.36,1) both .5s; }
+.hero-checklist{ animation: fadeUp .9s cubic-bezier(.22,1,.36,1) both .65s; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Promise icon bounce on card hover */
+.promise-card:hover .promise-icon {
+  animation: iconBounce .5s cubic-bezier(.36,.07,.19,.97);
+}
+@keyframes iconBounce {
+  0%,100% { transform: translateY(0) scale(1); }
+  30%     { transform: translateY(-8px) scale(1.15); }
+  60%     { transform: translateY(-2px) scale(1.05); }
+}
+
+/* Ingredient card glow on hover */
+.ingredient:hover {
+  background: rgba(255,255,255,.22);
+  box-shadow: 0 0 20px rgba(255,255,255,.12);
+}
+
+/* ======================================================
    SCROLL REVEAL
    ====================================================== */
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity .65s ease, transform .65s ease;
+  transform: translateY(36px) scale(.98);
+  transition: opacity .7s cubic-bezier(.22,1,.36,1),
+              transform .7s cubic-bezier(.22,1,.36,1);
 }
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* ======================================================

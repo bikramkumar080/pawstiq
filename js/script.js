@@ -360,6 +360,31 @@ function toggleBackToTop() {
   });
 })();
 
+/* ---------- Parallax hero ---------- */
+(function initParallax() {
+  const heroImg = document.querySelector('.hero-img');
+  if (!heroImg || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  window.addEventListener('scroll', () => {
+    heroImg.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+  }, { passive: true });
+})();
+
+/* ---------- 3D card tilt ---------- */
+(function initTilt() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cards = document.querySelectorAll('.product-card, .promise-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+})();
 
 (function initRipple() {
   document.querySelectorAll('.btn').forEach(btn => {
