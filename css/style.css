@@ -524,86 +524,43 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   gap: 12px;
   margin-bottom: 40px;
 }
-@media (min-width: 768px) {
-  .ingredients-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
-}
-@media (min-width: 1024px) {
-  .ingredients-grid { grid-template-columns: repeat(7, 1fr); gap: 16px; }
-}
-.ingredient {
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-md);
-  padding: 0;
-  text-align: center;
-  height: 240px;
-}
-@media (min-width: 768px) { .ingredient { height: 220px; } }
-@media (min-width: 1024px) { .ingredient { height: 180px; } }
-.ingredient:hover { background: transparent; transform: none; }
-.ingredient-icon { font-size: 2.25rem; display: block; margin-bottom: 10px; }
-.ingredient-name {
-  font-size: .8rem;
-  font-weight: 600;
-  color: rgba(255,255,255,.85);
-  letter-spacing: .04em;
-}
-/* Flip card */
-.flip-card {
-  perspective: 1000px;
-  cursor: pointer;
-  height: 100%;
-  width: 100%;
-  display: block;
-}
-.flip-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform .55s cubic-bezier(.4,0,.2,1);
-}
-.flip-card:hover .flip-inner { transform: rotateY(180deg); }
-.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+@media (min-width: 768px) { .ingredients-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+@media (min-width: 1024px) { .ingredients-grid { grid-template-columns: repeat(7, 1fr); gap: 16px; } }
 
-@media (hover: none) {
-  .flip-card:hover .flip-inner { transform: none; }
+/* Ingredients grid */
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
 }
-.flip-front,
-.flip-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+@media (min-width: 768px) { .ingredients-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+@media (min-width: 1024px) { .ingredients-grid { grid-template-columns: repeat(7, 1fr); gap: 16px; } }
+
+.ingredient {
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
   border-radius: var(--radius-md);
+  padding: 20px 12px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 20px 16px;
+  gap: 6px;
+  transition: background var(--transition), transform var(--transition);
 }
-.flip-front {
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.18);
-  gap: 10px;
+.ingredient:hover { background: rgba(255,255,255,.18); transform: translateY(-4px); }
+.ingredient-icon { font-size: 2rem; }
+.ingredient-name {
+  font-size: .82rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.90);
+  letter-spacing: .03em;
 }
-.flip-back {
-  background: var(--white);
-  transform: rotateY(180deg);
-  gap: 8px;
-}
-.flip-back h4 {
-  font-family: var(--font-heading);
-  font-size: .9rem;
-  color: var(--olive);
-  text-align: center;
-}
-.flip-back p {
-  font-size: .78rem;
-  color: var(--text-light);
-  line-height: 1.55;
-  text-align: center;
-  margin: 0;
+.ingredient-benefit {
+  font-size: .68rem;
+  color: rgba(255,255,255,.60);
+  line-height: 1.4;
 }
 .ingredients-note {
   text-align: center;
