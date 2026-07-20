@@ -524,11 +524,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   gap: 12px;
   margin-bottom: 40px;
 }
-@media (min-width: 600px) {
-  .ingredients-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
-}
-@media (min-width: 900px) {
+@media (min-width: 768px) {
   .ingredients-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+}
+@media (min-width: 1024px) {
+  .ingredients-grid { grid-template-columns: repeat(7, 1fr); gap: 16px; }
 }
 .ingredient {
   background: transparent;
@@ -551,8 +551,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   cursor: pointer;
   height: 240px;
 }
-@media (min-width: 600px) { .flip-card { height: 220px; } }
-@media (min-width: 900px) { .flip-card { height: 200px; } }
+@media (min-width: 768px) { .flip-card { height: 220px; } }
+@media (min-width: 1024px) { .flip-card { height: 180px; } }
 .flip-inner {
   position: relative;
   width: 100%;
@@ -560,8 +560,12 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   transform-style: preserve-3d;
   transition: transform .55s cubic-bezier(.4,0,.2,1);
 }
-.flip-card:hover .flip-inner,
+.flip-card:hover .flip-inner { transform: rotateY(180deg); }
 .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+
+@media (hover: none) {
+  .flip-card:hover .flip-inner { transform: none; }
+}
 .flip-front,
 .flip-back {
   position: absolute;
@@ -1593,7 +1597,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   .hero-headline { font-size: 2.2rem; }
   .hero-actions { flex-direction: column; align-items: flex-start; }
   .instagram-grid { grid-template-columns: repeat(2, 1fr); }
-  .ingredients-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ---------- Accessibility ---------- */
