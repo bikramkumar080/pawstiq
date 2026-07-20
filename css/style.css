@@ -521,14 +521,14 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .ingredients-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 40px;
 }
-@media (min-width: 540px) {
-  .ingredients-grid { grid-template-columns: repeat(3, 1fr); }
+@media (min-width: 600px) {
+  .ingredients-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
 }
 @media (min-width: 900px) {
-  .ingredients-grid { grid-template-columns: repeat(4, 1fr); }
+  .ingredients-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
 }
 .ingredient {
   background: transparent;
@@ -549,8 +549,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .flip-card {
   perspective: 1000px;
   cursor: pointer;
-  height: 200px;
+  height: 240px;
 }
+@media (min-width: 600px) { .flip-card { height: 220px; } }
+@media (min-width: 900px) { .flip-card { height: 200px; } }
 .flip-inner {
   position: relative;
   width: 100%;
