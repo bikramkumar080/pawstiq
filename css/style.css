@@ -536,7 +536,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   border-radius: var(--radius-md);
   padding: 0;
   text-align: center;
+  height: 240px;
 }
+@media (min-width: 768px) { .ingredient { height: 220px; } }
+@media (min-width: 1024px) { .ingredient { height: 180px; } }
 .ingredient:hover { background: transparent; transform: none; }
 .ingredient-icon { font-size: 2.25rem; display: block; margin-bottom: 10px; }
 .ingredient-name {
@@ -549,10 +552,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .flip-card {
   perspective: 1000px;
   cursor: pointer;
-  height: 240px;
+  height: 100%;
+  width: 100%;
+  display: block;
 }
-@media (min-width: 768px) { .flip-card { height: 220px; } }
-@media (min-width: 1024px) { .flip-card { height: 180px; } }
 .flip-inner {
   position: relative;
   width: 100%;

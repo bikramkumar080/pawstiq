@@ -563,9 +563,19 @@ function toggleBackToTop() {
 /* ---------- Ingredient flip cards (mobile tap) ---------- */
 (function initFlipCards() {
   document.querySelectorAll('.flip-card').forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Unflip all others first
+      document.querySelectorAll('.flip-card.flipped').forEach(c => {
+        if (c !== card) c.classList.remove('flipped');
+      });
       card.classList.toggle('flipped');
     });
+  });
+
+  // Tap outside to unflip
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.flip-card.flipped').forEach(c => c.classList.remove('flipped'));
   });
 })();
 
