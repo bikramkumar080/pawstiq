@@ -550,6 +550,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   transition: background var(--transition), transform var(--transition);
 }
 .ingredient:hover { background: rgba(255,255,255,.10); transform: none; }
+@media (hover: none) { .ingredient:hover { background: rgba(255,255,255,.10); } }
 .ingredient-icon { font-size: 2rem; }
 .ingredient-name {
   font-size: .82rem;
