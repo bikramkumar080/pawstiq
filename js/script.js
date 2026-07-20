@@ -422,7 +422,7 @@ function toggleBackToTop() {
 
 /* ---------- Checkout Modal ---------- */
 (function initCheckout() {
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxnNNZ3YEi1vYP36u5LloO3yYQPa952JPszIIA-Li6U5wCNSoqJ4vJv0gXW_hK3T8c/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwpS8TZsG84HhW2YOgNPXxTLeTkbJgOcMEr3OaJ7ltAx84vI68reeB4CNQt6KEhyNc/exec';
   const PRICES = { chicken: 299, pumpkin: 249, banana: 249 };
 
   const overlay       = document.getElementById('orderModal');
