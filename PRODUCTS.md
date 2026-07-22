@@ -29,7 +29,7 @@ Serve as a snack or reward treat. Not a meal substitute.
 **Manufactured by:**
 Pawstiq Pets
 Bengaluru, Karnataka
-pawstiq@gmail.com
+contact@pawstiqpets.com
 
 **MRP (inc. all taxes):** ₹349
 **Net Wt.:** 70g
@@ -66,7 +66,7 @@ Serve as a snack or reward treat. Not a meal substitute.
 **Manufactured by:**
 Pawstiq Pets
 Bengaluru, Karnataka
-pawstiq@gmail.com
+contact@pawstiqpets.com
 
 **MRP (inc. all taxes):** ₹299
 **Net Wt.:** 200g
@@ -103,7 +103,7 @@ Serve as a snack or reward treat. Not a meal substitute.
 **Manufactured by:**
 Pawstiq Pets
 Bengaluru, Karnataka
-pawstiq@gmail.com
+contact@pawstiqpets.com
 
 **MRP (inc. all taxes):** ₹299
 **Net Wt.:** 200g
