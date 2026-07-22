@@ -425,6 +425,10 @@ function toggleBackToTop() {
   const SCRIPT_URL = '__SCRIPT_URL__';
   const PRICES = { chicken: 299, pumpkin: 249, banana: 249 };
 
+  const REFERRAL_CODES = {
+    'POSTO': { owner: 'Posto', discount: 0 },
+  };
+
   const overlay       = document.getElementById('orderModal');
   const closeBtn      = document.getElementById('orderModalClose');
   const form          = document.getElementById('orderForm');
@@ -442,13 +446,16 @@ function toggleBackToTop() {
   if (!overlay) return;
 
   let orderData = {};
+  let appliedReferral = null;
 
   function calcTotal() {
     const cart = window.getCart ? window.getCart() : {};
     let subtotal = 0;
     Object.entries(cart).forEach(([id, qty]) => { subtotal += (PRICES[id] || 0) * qty; });
-    const shipping = subtotal > 0 && subtotal < 500 ? 50 : 0;
-    if (totalEl) totalEl.textContent = '₹' + (subtotal + shipping);
+    const discountAmt = appliedReferral ? Math.round(subtotal * appliedReferral.discount / 100) : 0;
+    const discountedSubtotal = subtotal - discountAmt;
+    const shipping = discountedSubtotal > 0 && discountedSubtotal < 500 ? 50 : 0;
+    if (totalEl) totalEl.textContent = '₹' + (discountedSubtotal + shipping);
   }
 
   window.openCheckout = function() {
@@ -463,6 +470,12 @@ function toggleBackToTop() {
   function closeModal() {
     overlay.classList.remove('open');
     document.body.style.overflow = '';
+    appliedReferral = null;
+    const refInput = document.getElementById('of-referral');
+    const refFeedback = document.getElementById('referralFeedback');
+    if (refInput) refInput.value = '';
+    if (refFeedback) { refFeedback.textContent = ''; refFeedback.className = 'referral-feedback'; }
+    calcTotal();
   }
 
   const modalHeader = overlay.querySelectorAll('.order-modal > .section-tag, .order-modal > .order-modal-title, .order-modal > .order-modal-subtitle');
@@ -483,6 +496,31 @@ function toggleBackToTop() {
     sel.addEventListener('change', calcTotal);
   });
 
+  const applyBtn = document.getElementById('applyReferral');
+  if (applyBtn) {
+    applyBtn.addEventListener('click', function() {
+      const refInput = document.getElementById('of-referral');
+      const refFeedback = document.getElementById('referralFeedback');
+      const code = refInput.value.trim().toUpperCase();
+      if (!code) {
+        refFeedback.textContent = 'Please enter a referral code.';
+        refFeedback.className = 'referral-feedback error';
+        return;
+      }
+      const match = REFERRAL_CODES[code];
+      if (match && match.discount > 0) {
+        appliedReferral = { code, ...match };
+        refFeedback.textContent = `${match.discount}% off applied!`;
+        refFeedback.className = 'referral-feedback success';
+      } else {
+        appliedReferral = null;
+        refFeedback.textContent = 'Invalid referral code.';
+        refFeedback.className = 'referral-feedback error';
+      }
+      calcTotal();
+    });
+  }
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     errorEl.textContent = '';
@@ -501,8 +539,10 @@ function toggleBackToTop() {
     const pumpkin = String(cart.pumpkin || 0);
     const banana  = String(cart.banana  || 0);
     const subtotal = 299 * parseInt(chicken) + 249 * parseInt(pumpkin) + 249 * parseInt(banana);
-    const shipping = subtotal > 0 && subtotal < 500 ? 50 : 0;
-    const total = '₹' + (subtotal + shipping);
+    const discountAmt = appliedReferral ? Math.round(subtotal * appliedReferral.discount / 100) : 0;
+    const discountedSubtotal = subtotal - discountAmt;
+    const shipping = discountedSubtotal > 0 && discountedSubtotal < 500 ? 50 : 0;
+    const finalTotal = discountedSubtotal + shipping;
 
     if (!name || !phone || !address || !city || !state || !pincode) {
       errorEl.textContent = 'Please fill in all required fields.'; return;
@@ -511,7 +551,16 @@ function toggleBackToTop() {
       errorEl.textContent = 'Your cart is empty - please add at least one product.'; return;
     }
 
-    orderData = { name, phone, email, address, city, state, pincode, chicken, pumpkin, banana, notes, total };
+    orderData = {
+      name, phone, email, address, city, state, pincode, chicken, pumpkin, banana, notes,
+      subtotal: '₹' + subtotal,
+      referralCode: appliedReferral ? appliedReferral.code : '',
+      referralOwner: appliedReferral ? appliedReferral.owner : '',
+      discountPercent: appliedReferral ? appliedReferral.discount : 0,
+      discountAmount: discountAmt,
+      shipping: shipping > 0 ? '₹' + shipping : 'Free',
+      total: '₹' + finalTotal,
+    };
 
     let items = [];
     if (chicken !== '0') items.push(`Chicken Jerky × ${chicken} = ₹${299 * parseInt(chicken)}`);
@@ -525,7 +574,9 @@ function toggleBackToTop() {
       `<div>📦 ${address}, ${city}, ${state} – ${pincode}</div>` +
       `<hr style="border:none;border-top:1px solid var(--border);margin:8px 0"/>` +
       items.map(i => `<div>🛒 ${i}</div>`).join('') +
-      `<div style="margin-top:8px;font-size:1rem">💰 <strong>${total}</strong></div>` +
+      (discountAmt > 0 ? `<div class="confirm-discount">🏷️ Referral discount (${appliedReferral.discount}%): −₹${discountAmt}</div>` : '') +
+      (shipping > 0 ? `<div class="confirm-shipping">🚚 Shipping: +₹${shipping} <span class="confirm-shipping-note">(order below ₹500 after discount)</span></div>` : `<div class="confirm-shipping free">🚚 Free shipping</div>`) +
+      `<div style="margin-top:8px;font-size:1rem">💰 <strong>₹${finalTotal}</strong></div>` +
       (notes ? `<div>📝 ${notes}</div>` : '');
 
     showStep('confirm');
