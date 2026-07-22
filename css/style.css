@@ -129,6 +129,19 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   color: var(--white);
 }
 .btn-lg { font-size: 1rem; padding: 15px 36px; }
+.btn-sm { font-size: .8rem; padding: 8px 16px; white-space: nowrap; }
+
+.referral-input-wrap { display: flex; gap: 8px; }
+.referral-input-wrap input { flex: 1; }
+.referral-feedback { font-size: .78rem; font-weight: 600; margin-top: 4px; min-height: 1.2em; }
+.referral-feedback.success { color: var(--olive); }
+.referral-feedback.error   { color: #c0392b; }
+
+.confirm-discount { color: var(--olive); font-size: .88rem; font-weight: 600; margin-top: 4px; }
+.confirm-shipping { font-size: .88rem; font-weight: 600; margin-top: 4px; color: #c0392b; }
+.confirm-shipping.free { color: var(--olive); }
+.confirm-shipping-note { font-weight: 400; font-size: .78rem; }
+
 
 /* ======================================================
    NAVBAR

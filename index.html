@@ -634,6 +634,15 @@
         </div>
 
         <div class="form-group">
+          <label for="of-referral">Referral Code <span class="form-optional">(optional)</span></label>
+          <div class="referral-input-wrap">
+            <input type="text" id="of-referral" name="referral" placeholder="e.g. PAWPAL10" autocomplete="off" />
+            <button type="button" id="applyReferral" class="btn btn-outline btn-sm">Apply</button>
+          </div>
+          <p class="referral-feedback" id="referralFeedback"></p>
+        </div>
+
+        <div class="form-group">
           <label for="of-notes">Special Instructions <span class="form-optional">(optional)</span></label>
           <textarea id="of-notes" name="notes" rows="2" placeholder="Any allergies, delivery preferences, etc."></textarea>
         </div>
