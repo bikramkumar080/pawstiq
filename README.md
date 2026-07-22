@@ -52,7 +52,7 @@ When ready, point `pawstiqpets.com` to GitHub Pages by adding a `CNAME` file and
 ## Contact
 
 - Instagram: [@pawstiq](https://www.instagram.com/pawstiq)
-- Email: pawstiq@gmail.com
+- Email: contact@pawstiqpets.com
 - Location: Bengaluru, Karnataka, India
 
 ## Product Details
