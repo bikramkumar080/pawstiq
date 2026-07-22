@@ -465,10 +465,13 @@ function toggleBackToTop() {
     document.body.style.overflow = '';
   }
 
+  const modalHeader = overlay.querySelectorAll('.order-modal > .section-tag, .order-modal > .order-modal-title, .order-modal > .order-modal-subtitle');
+
   function showStep(step) {
     form.style.display = step === 'form' ? '' : 'none';
     confirmEl.classList.toggle('show', step === 'confirm');
     successEl.classList.toggle('show', step === 'success');
+    modalHeader.forEach(el => el.style.display = step === 'success' ? 'none' : '');
   }
 
   closeBtn.addEventListener('click', closeModal);
